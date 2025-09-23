@@ -4,16 +4,22 @@ export async function handler(event, context) {
   try {
     const { userInput } = JSON.parse(event.body);
 
-    const response = await fetch("https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        inputs: `User feels: "${userInput}". Suggest a food.`,
-      }),
-    });
+    const response = await fetch(
+      "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-7B-Instruct-1M",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          inputs: `User feels: "${userInput}". Suggest a menu item.`,
+          parameters: {
+            max_new_tokens: 50,  // 응답 길이 제한
+          },
+        }),
+      }
+    );
 
     if (!response.ok) {
       const errText = await response.text();
