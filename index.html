@@ -22,7 +22,7 @@
     <script>
       let serverItems = [];
 
-      fetch("https://callapitest.netlify.app/")
+      fetch("db.json")
         .then((res4) => res4.json())
         .then((data4) => {
           console.log("제이슨 서버", data4);
