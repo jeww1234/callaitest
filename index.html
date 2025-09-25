@@ -1,24 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Menu Recommendation</title>
-</head>
-<body>
-    <h1>진짜 짜증나네???</h1>
-  <h2>What should I eat today? (AI-generated)</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>홀리몰리!</h1>
+    <input type="text" id="userInput" />
+    <button id="addButton">+</button>
+    <div style="display: flex">
+      <div
+        style="width: 500px; height: 500px; background-color: antiquewhite"
+        id="resultArea"
+      ></div>
+      <div
+        style="width: 200px; height: 500px; background-color: aquamarine"
+        id="listArea"
+      ></div>
+    </div>
+    <script>
+      let serverItems = [];
 
-  <!-- 사용자 입력 -->
-  <input type="text" id="userInput" placeholder="e.g., Feeling a bit sad" style="width:300px; padding:5px;" />
+      fetch("http://localhost:3004/item1")
+        .then((res4) => res4.json())
+        .then((data4) => {
+          console.log("제이슨 서버", data4);
+          serverItems = data4;
+        });
 
-  <!-- 버튼 -->
-  <button id="menuBtn">Get Recommendation</button>
+      const userInput = document.getElementById("userInput");
+      const addButton = document.getElementById("addButton");
+      const resultArea = document.getElementById("resultArea");
+      const listArea = document.getElementById("listArea");
 
-  <!-- 결과 표시 -->
-  <p id="result"></p>
+      const searchItem = () => {
+        console.log(userInput.value);
+        const inputValue = userInput.value.trim();
 
-  <!-- JS 불러오기 -->
-  <script src="script.js"></script>
-</body>
+        const matcheditem = serverItems.filter((item) =>
+          item.ITEM_NAME.includes(inputValue)
+        );
+
+        if (matcheditem.length > 0) {
+          console.log("있음", matcheditem);
+          listArea.innerHTML = "";
+          matcheditem.forEach((item) => {
+            const p = document.createElement("p");
+            p.textContent = item.ITEM_NAME;
+            p.style.cursor = "pointer";
+            p.addEventListener("click", () => {
+              resultArea.innerHTML = `<p><strong>ITEM_NAME:</strong> ${item.ITEM_NAME}</p>
+              <p><strong>EFCY:</strong> ${item.EFCY}</p>
+              <p><strong>SEQ:</strong> ${item.SEQ}</p>
+              <p><strong>STORAGE:</strong> ${item.STORAGE}</p>
+              <p><strong>USAGE:</strong> ${item.USAGE}</p>
+              <p><strong>USEITEM:</strong> ${item.USEITEM}</p>
+          `;
+            });
+            listArea.appendChild(p);
+          });
+        } else {
+          console.log("없음");
+          listArea.innerHTML = "<p>검색 결과 없음</p>";
+        }
+      };
+      addButton.addEventListener("click", searchItem);
+    </script>
+  </body>
 </html>

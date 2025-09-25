@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>홀리몰리!</h1>
+    <div style="display: flex">
+      <input type="text" id="useInput" />
+      <button id="addbtn">+</button>
+    </div>
+
+    <script src="./script.js"></script>
+    <script src="./script2.js"></script>
+
+    <script>
+      const addbtn = document.getElementById("addbtn");
+      const useInput = document.getElementById("useInput");
+
+      const additem = async () => {
+        const keyword = useInput.value.trim();
+        if (!keyword) return;
+
+        const res1 = await fetch(
+          `http://localhost:3004/effect?ITEM_NAME=${encodeURIComponent(
+            keyword
+          )}`
+        );
+        const effectData = await res1.json();
+
+
+        if (effectData.length === 0) {
+          console.log("❌ 해당 약품 없음");
+          return;
+        }
+
+        const itemSeq = effectData[0].SEQ || effectData[0].seq;
+        console.log("🔍 itemSeq:", itemSeq);
+
+        const res2 = await fetch(
+          `http://localhost:3004/dur_data?ITEM_NAME=${encodeURIComponent(
+            keyword
+          )}`
+        );
+        const data1 = await res2.json();
+
+        if (data1.length > 0 || effectData.length > 0) {
+          console.log("존재");
+          console.log("json1", data1);
+          console.log("json2", effectData);
+        } else {
+          console.log("없음");
+        }
+      };
+      addbtn.addEventListener("click", additem);
+    </script>
+  </body>
+</html>

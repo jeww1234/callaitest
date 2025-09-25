@@ -1,0 +1,24 @@
+{
+  "name": "testai",
+  "version": "1.0.0",
+  "description": "🚫 브라우저 직접 호출 불가\r - 대형 모델은 보안(CORS) 정책 때문에 브라우저에서 직접 fetch 호출이 막힘\r - Hugging Face Hosted API가 있어도 브라우저에서 직접 호출 불가",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeww1234/callaitest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeww1234/callaitest/issues"
+  },
+  "homepage": "https://github.com/jeww1234/callaitest#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "node-fetch": "^3.3.2"
+  }
+}
