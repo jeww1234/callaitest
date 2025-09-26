@@ -2,14 +2,17 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const fs = require("fs");
 
-const api_key2 =
-  "3d943276438037d03c0b4643140a045689cb83cbd5b27a42798bcd09c9f32673";
-const encodedKey2 = encodeURIComponent(api_key2);
+require("dotenv").config(); // 꼭 최상단에
+
+const api_key = process.env.api_key;
+
+
+const encodedKey = encodeURIComponent(api_key);
 const totalPages = 249;
 const allItems2 = [];
 
 const fetchDurPage = async (page) => {
-  const url = `https://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService02/getMdcinGrnIdntfcInfoList02?serviceKey=${encodedKey2}&type=json&numOfRows=100&pageNo=${page}`;
+  const url = `https://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService02/getMdcinGrnIdntfcInfoList02?serviceKey=${encodedKey}&type=json&numOfRows=100&pageNo=${page}`;
   const res = await fetch(url);
   const data = await res.json();
   return data.body?.items || [];
